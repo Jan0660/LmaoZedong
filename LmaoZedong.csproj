@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+        <LangVersion>preview</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Discord.Net.Labs" Version="3.1.4" />
+      <PackageReference Include="Log73" Version="0.7.0" />
+      <PackageReference Include="Log73.Extensions.NewtonsoftJson" Version="0.7.0" />
+    </ItemGroup>
+
+</Project>
