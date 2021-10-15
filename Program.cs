@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Console = Log73.Console;
 using System.Threading.Tasks;
+using System.Web;
 using Discord;
 using Discord.WebSocket;
 using Log73.ExtensionMethod;
@@ -66,14 +68,22 @@ client.Ready += async () =>
         new MessageCommandProperties()
         {
             Name = "good citizen"
-        }
+        },
+        new MessageCommandProperties()
+        {
+            Name = "-11115 social credits"
+        },
     };
     foreach (var cmd in commands)
         await client.CreateGlobalApplicationCommandAsync(cmd);
     Console.Log("COmmands created");
 };
 var rng = new Random();
-client.InteractionCreated += interaction =>
+client.InteractionCreated += HandleInteraction;
+await client.StartAsync();
+await Task.Delay(-1);
+
+Task HandleInteraction(SocketInteraction interaction)
 {
     Task.Run(async () =>
     {
@@ -105,11 +115,27 @@ client.InteractionCreated += interaction =>
                                 cmd.Data.Message.Id,
                                 cmd.Data.Message.Channel.Id));
                         break;
+                    case "-11115 social credits":
+                        Task.Run(() => interaction.RespondAsync("tr", ephemeral: true));
+                        string url;
+                        if (string.IsNullOrEmpty(cmd.Data.Message.Content) && cmd.Data.Message.Attachments.Any())
+                            url = "https://social-credit.store/?str=" +
+                                  HttpUtility.UrlEncode(@$"<img src=""{cmd.Data.Message.Attachments.First().Url}""/>");
+                        else if (!string.IsNullOrEmpty(cmd.Data.Message.Content))
+                            url = "https://social-credit.store/?str=" + HttpUtility.UrlEncode(cmd.Data.Message.Content);
+                        else
+                            url = "https://social-credit.store/?str=literally+nothing";
+                        await cmd.Data.Message.Channel.SendMessageAsync(messageReference: new(
+                                cmd.Data.Message.Id,
+                                cmd.Data.Message.Channel.Id),
+                            embed: new EmbedBuilder()
+                            {
+                                Url = url,
+                                Title = "-11115 social credits",
+                                Color = Color.Red,
+                            }.Build());
+                        break;
                 }
-            }
-            else
-            {
-                await interaction.RespondAsync("Invalid");
             }
         }
         catch (Exception exc)
@@ -118,6 +144,4 @@ client.InteractionCreated += interaction =>
         }
     });
     return Task.CompletedTask;
-};
-await client.StartAsync();
-await Task.Delay(-1);
+}
