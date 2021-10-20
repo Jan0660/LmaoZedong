@@ -47,7 +47,8 @@ var goodCitizenStrings = new[]
 https://cdn.discordapp.com/attachments/763740330629398588/865242744162484254/CCP.mp4",
     @"MESSAGE FROM THE MINISTRY OF STATE
 +40 social credit, 做得好!
-https://cdn.discordapp.com/attachments/779087045033066547/874660794451787776/lol.mp4"
+https://cdn.discordapp.com/attachments/779087045033066547/874660794451787776/lol.mp4",
+    "+100 social credits 阿肆 - 热爱105°C的你"
 };
 Console.Configure.UseNewtonsoftJson();
 var client = new DiscordSocketClient();
